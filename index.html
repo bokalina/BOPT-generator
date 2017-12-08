@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>BOPATG</title>
+    <style type="text/css">
+    	li{
+    		list-style-type: none;
+            margin: 0;
+            padding: 8px;
+            height: 25%;
+            display: inline;
+            float: left;
+            background-color: #333;
+            color:white;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+
+    	}
+    </style>
+</head>
+
+<body>
+    <h1>Bootstrap One Page Template Generator</h1>
+    <p>Enter comma separated list of section names and click on <strong>"Generate"</strong>.</p>
+    <input type="text" id="inputNames" style="width: 35%;" value="brand,about,contact" />
+    <button onclick="generate()">Generate</button>
+    <div>
+        <p>Generated source code:</p>
+        <textarea style="width: 70%; height: 400px;" id="result" disabled>The generated source code will be displayed here!</textarea>
+    </div>
+    <button onclick="download()">Download</button>
+    <script type="text/javascript">
+    const inputNames = document.getElementById("inputNames");
+    const result = document.getElementById("result");
+
+    
+
+    function download() {
+        let downloadLink = document.createElement('a');
+        downloadLink.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(result.value));
+        downloadLink.setAttribute('download', "BOPATG.html");
+        downloadLink.style.display = 'none';
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+    }
+
+    function generate() {
+        const namesValue = inputNames.value;
+        let template = "<!DOCTYPE html>\n" +
+            "<html>\n" +
+            "  <head>\n" +
+            "    <title>Demo</title>\n" +
+            "  </head>\n" +
+            "<body>\n" +
+            "<ul>\n"+
+            "<li>\n"+
+            "    $REPLACE_ME$\n" +
+            "</li>\n"+
+            "</ul>\n"+ 
+            "</body>\n" +
+            "</html>\n";
+
+        var REPLACE_ME = ""
+        const names = namesValue.split(',');
+        for (var i = 0; i < names.length; i++) {
+            var name = names[i];
+            REPLACE_ME += "<li>" + name + "</li>\n";
+        }
+        template = template.replace("$REPLACE_ME$", REPLACE_ME);
+        result.innerHTML = template;
+    }
+    </script>
+</body>
+</html>
